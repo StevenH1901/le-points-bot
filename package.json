@@ -1,0 +1,19 @@
+{
+  "name": "le-points-bot",
+  "version": "1.0.0",
+  "description": "Le Points Bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Steven Hodges <steven@stevenh.dev>",
+  "license": "ISC",
+  "dependencies": {
+    "ascii-table3": "^0.9.0",
+    "discord.js": "^14.17.3",
+    "mongoose": "^8.10.1"
+  },
+  "devDependencies": {
+    "eslint": "^9.17.0"
+  }
+}
