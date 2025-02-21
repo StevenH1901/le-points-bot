@@ -21,7 +21,7 @@ module.exports = {
         const guild = await interaction.member.guild;
 
         // Sometimes it takes more than 3 seconds to finish this, so defer reply
-        // await interaction.deferReply();
+        await interaction.deferReply();
 
         let allUsers = null;
 
@@ -45,6 +45,6 @@ module.exports = {
             table.addRow(guildUser.nickname || guildUser.user.displayName, user.points);
         }
 
-        interaction.reply(codeBlock(table.toString()));
+        interaction.editReply(codeBlock(table.toString()));
     },
 };
