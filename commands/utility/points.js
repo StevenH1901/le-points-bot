@@ -38,6 +38,11 @@ module.exports = {
             return interaction.reply(`@everyone - <@${interaction.user.id}> tried giving themselves points`);
         }
 
+        // Check if target is a bot
+        if (target.bot) {
+            return interaction.reply(`Bots don't deserve points.`);
+        }
+
         if (isFinite(points)) {
             // Log new point entry
             const newPointLog = PointLog.create({
