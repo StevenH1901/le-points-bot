@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, InteractionContextType, codeBlock } = require('discord.js');
+const { env } = require('../../config.json');
 const PointLog = require('../../Schemas/pointLogSchema');
 const User = require('../../Schemas/userSchema');
 const { AsciiTable3 } = require('ascii-table3');
@@ -29,11 +30,15 @@ module.exports = {
         const points = interaction.options.getString('points');
         const reason = interaction.options.getString('reason');
 
-        if (isNaN(points)) {
-            await interaction.reply(`Dumb bitch, "${points}" is not a valid number. Try again`);
-        } else if (points == '1e337') {
-            await interaction.reply(`Asshat, No one deserves infinite points.`);
-        } else {
+        // Since _someone_ likes to break this with invalid numbers, let's log the points so we can figure it out easier
+        console.log(`${points} assigned by ${interaction.user.displayName}`)
+
+        // Check if user is assigning themselves points, that's not fun
+        if (interaction.user.id == target.id && env != 'dev') {
+            return interaction.reply(`@everyone - <@${interaction.user.id}> tried giving themselves points`);
+        }
+
+        if (isFinite(points)) {
             // Log new point entry
             const newPointLog = PointLog.create({
                 to_discord_id: target.id,
@@ -43,7 +48,7 @@ module.exports = {
                 timestamp: Date.now()
             }).catch(err => {
                 console.log(`[ERROR] ${err}`)
-                interaction.reply(` "${points}" is (probably) not a valid number. Try again`);
+                return interaction.reply(` "${points}" is (probably) not a valid number. Try again`);
             });
 
             // Update user points
@@ -85,6 +90,12 @@ module.exports = {
             }
 
             interaction.editReply(codeBlock(table.toString()));
+        } else if (isNaN(points)) {
+            await interaction.reply(`Dumb bitch, "${points}" is not a valid number. Try again`);
+        } else if (points == Infinity) {
+            await interaction.reply(`Asshat, No one deserves infinite points.`);
+        } else {
+            await interaction.reply(`Hey fucker, That's not a valid number. Try again`);
         }
     },
 };
