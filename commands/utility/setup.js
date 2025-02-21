@@ -1,8 +1,6 @@
-const { Client, GatewayIntentBits, PermissionFlagsBits } = require('discord.js');
-const { token, guildID } = require('../../config.json');
-const { SlashCommandBuilder, InteractionContextType, codeBlock } = require('discord.js');
+const { PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, InteractionContextType } = require('discord.js');
 const User = require('../../Schemas/userSchema');
-const { AsciiTable3 } = require('ascii-table3');
 
 module.exports = {
     data: new SlashCommandBuilder()
