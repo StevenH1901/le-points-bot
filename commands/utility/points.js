@@ -31,7 +31,7 @@ module.exports = {
         const reason = interaction.options.getString('reason');
 
         // Since _someone_ likes to break this with invalid numbers, let's log the points so we can figure it out easier
-        console.log(`${points} assigned by ${interaction.user.displayName}`)
+        console.log(`${points} to ${target.displayName} by ${interaction.user.displayName}`)
 
         // Check if user is assigning themselves points, that's not fun
         if (interaction.user.id == target.id && env != 'dev') {
