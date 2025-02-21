@@ -58,7 +58,12 @@ module.exports = {
             // Get the guild in case we need to pull members not from cache
             const guild = await interaction.member.guild;
 
-            const allUsers = await User.find({});
+            let allUsers = null;
+            if (interaction.options.getBoolean('display_all')) {
+                allUsers = await User.find().sort({ points: 'desc' });
+            } else {
+                allUsers = await User.where('points').ne(0).sort({ points: 'desc' });
+            }
 
             for (const user of allUsers) {
                 const discordID = String(user.discord_id);
@@ -71,9 +76,7 @@ module.exports = {
                     guildUser = await guild.members.fetch(discordID);
                 }
 
-                if (user.points != 0) {
-                    table.addRow(guildUser.nickname || guildUser.user.displayName, user.points);
-                }
+                table.addRow(guildUser.nickname || guildUser.user.displayName, user.points);
             }
 
             interaction.editReply(codeBlock(table.toString()));
