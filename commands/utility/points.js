@@ -52,6 +52,9 @@ module.exports = {
             var table = new AsciiTable3('Point Totals')
                 .setHeading('User', 'Points');
 
+            // Sometimes it takes more than 3 seconds to finish this, so defer reply
+            await interaction.deferReply();
+
             // Get the guild in case we need to pull members not from cache
             const guild = await interaction.member.guild;
 
@@ -73,7 +76,7 @@ module.exports = {
                 }
             }
 
-            interaction.reply(codeBlock(table.toString()));
+            interaction.editReply(codeBlock(table.toString()));
         }
     },
 };
