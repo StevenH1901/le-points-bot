@@ -45,17 +45,17 @@ module.exports = {
             User.findOne({ discord_id: target.id }).then(user => {
                 const newTotal = Number(user.points) + Number(points);
                 user.points = newTotal;
-                return user.save();
+                user.save();
             }).catch(err => console.log(err));
 
             // Create the ASCII table
             var table = new AsciiTable3('Point Totals')
                 .setHeading('User', 'Points');
 
-            const allUsers = await User.find({});
-
             // Get the guild in case we need to pull members not from cache
             const guild = await interaction.member.guild;
+
+            const allUsers = await User.find({});
 
             for (const user of allUsers) {
                 const discordID = String(user.discord_id);
