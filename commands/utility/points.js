@@ -30,7 +30,9 @@ module.exports = {
         const reason = interaction.options.getString('reason');
 
         if (isNaN(points)) {
-            await interaction.reply(`Dumb bitch, ${points} is not a valid number. Try again`);
+            await interaction.reply(`Dumb bitch, "${points}" is not a valid number. Try again`);
+        } else if (points == '1e337') {
+            await interaction.reply(`Asshat, No one deserves infinite points.`);
         } else {
             // Log new point entry
             const newPointLog = PointLog.create({
@@ -39,6 +41,9 @@ module.exports = {
                 points: points,
                 reason: reason,
                 timestamp: Date.now()
+            }).catch(err => {
+                console.log(`[ERROR] ${err}`)
+                interaction.reply(` "${points}" is (probably) not a valid number. Try again`);
             });
 
             // Update user points
