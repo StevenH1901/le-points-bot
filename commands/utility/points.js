@@ -44,6 +44,12 @@ module.exports = {
         }
 
         if (isFinite(points)) {
+            // Random max num between 1 billion and 1 tillion
+            maxNum = Math.floor(Math.random() * 1000000000000) + 1000000000;
+            if (points > maxNum) {
+                return interaction.reply(`Mmmm.... No. <@${target.id}> doesn't seem worth of that many points`);
+            }
+
             // Log new point entry
             const newPointLog = PointLog.create({
                 to_discord_id: target.id,
