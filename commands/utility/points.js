@@ -3,7 +3,7 @@ const { env } = require('../../config.json');
 const PointLog = require('../../Schemas/pointLogSchema');
 const User = require('../../Schemas/userSchema');
 const { AsciiTable3 } = require('ascii-table3');
-const { Validator, escape } = require('validator');
+const { Validator, escape, isInt } = require('validator');
 
 module.exports = {
     data: new SlashCommandBuilder()
