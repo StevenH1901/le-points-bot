@@ -55,8 +55,12 @@ module.exports = {
 
             // Random max num between 1 billion and 1 tillion
             maxNum = Math.floor(Math.random() * 1000000000000) + 1000000000;
+            minNum = maxNum * -1;
             if (points > maxNum) {
                 return interaction.reply(`Mmmm.... No. <@${target.id}> doesn't seem worth of that many points`);
+            }
+            if (points < minNum) {
+                return interaction.reply(`What the fuck did <@${target.id}> do to deserve ${points}? Let's not and say we didnt'`);
             }
 
             // Log new point entry
