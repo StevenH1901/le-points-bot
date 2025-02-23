@@ -3,6 +3,7 @@ const { env } = require('../../config.json');
 const PointLog = require('../../Schemas/pointLogSchema');
 const User = require('../../Schemas/userSchema');
 const { AsciiTable3 } = require('ascii-table3');
+const { Validator, escape } = require('validator');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -28,7 +29,7 @@ module.exports = {
     async execute(interaction) {
         const target = interaction.options.getUser('user');
         const points = interaction.options.getString('points');
-        const reason = interaction.options.getString('reason');
+        let reason = interaction.options.getString('reason');
 
         // Since _someone_ likes to break this with invalid numbers, let's log the points so we can figure it out easier
         console.log(`${points} to ${target.displayName} by ${interaction.user.displayName}`)
@@ -44,6 +45,14 @@ module.exports = {
         }
 
         if (isFinite(points)) {
+            // Validate points - Final sanity check
+            if (!points.isInt()) {
+                return interaction.reply('That\'s not a valid point value!');
+            }
+
+            // Sanitize reason
+            reason = escape(reason);
+
             // Random max num between 1 billion and 1 tillion
             maxNum = Math.floor(Math.random() * 1000000000000) + 1000000000;
             if (points > maxNum) {
