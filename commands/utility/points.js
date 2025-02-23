@@ -46,7 +46,7 @@ module.exports = {
 
         if (isFinite(points)) {
             // Validate points - Final sanity check
-            if (!points.isInt()) {
+            if (!isInt(points)) {
                 return interaction.reply('That\'s not a valid point value!');
             }
 
